@@ -10,7 +10,7 @@ width = size[0]
 height = size[1]
 maze = []
 solution = []
-wasHere = {}
+wasHere = set()
 scaleFactor = 4
 offset = 2
 
