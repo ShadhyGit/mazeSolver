@@ -10,7 +10,7 @@ width = size[0]
 height = size[1]
 maze = []
 solution = []
-wasHere = []
+wasHere = {}
 scaleFactor = 4
 offset = 2
 
@@ -63,33 +63,33 @@ def findPoints():
 
 
 def recursiveSolve(y, x):
-    while [y, x] != [exitY, exitX]:
-        pos = [y, x]
-        wasHere.append([y, x])
-        solution.append([y, x])
+    while (y, x) != (exitY, exitX):
+        pos = (y, x)
+        wasHere.add((y, x))
+        solution.append((y, x))
         visualiseSolver(x, y, (255, 0, 0))
-        if maze[y - 1][x] == "W" and [y - 1, x] not in wasHere:
+        if maze[y - 1][x] == "W" and (y - 1, x) not in wasHere:
             # print("Up")
-            possibleSteps = [y - 1, x]
-        elif maze[y][x + 1] == "W" and [y, x + 1] not in wasHere:
+            possibleSteps = (y - 1, x)
+        elif maze[y][x + 1] == "W" and (y, x + 1) not in wasHere:
             # print("Right")
-            possibleSteps = [y, x + 1]
-        elif maze[y + 1][x] == "W" and [y + 1, x] not in wasHere:
+            possibleSteps = (y, x + 1)
+        elif maze[y + 1][x] == "W" and (y + 1, x) not in wasHere:
             # print("Down")
-            possibleSteps = [y + 1, x]
-        elif maze[y][x - 1] == "W" and [y, x - 1] not in wasHere:
+            possibleSteps = (y + 1, x)
+        elif maze[y][x - 1] == "W" and (y, x - 1) not in wasHere:
             # print("Left")
-            possibleSteps = [y, x - 1]
+            possibleSteps = (y, x - 1)
         else:
             # print("Stuck", pos)
             solution.pop()
-            possibleSteps = [solution[-1][0], solution[-1][1]]
+            possibleSteps = (solution[-1][0], solution[-1][1])
             solution.pop()
             visualiseSolver(x, y, (255, 255, 255))
 
         y = possibleSteps[0]
         x = possibleSteps[1]
-    solution.append([exitY, exitX])
+    solution.append((exitY, exitX))
     visualiseSolver(exitX, exitY, (255, 0, 0))
     print("Solution:", solution)
 
@@ -112,8 +112,8 @@ def visualise():
 
 
 def visualiseMaze():
-    for y in range(0, len(maze)):
-        for x in range(0, len(maze[y])):
+    for y in range(len(maze)):
+        for x in range(len(maze[y])):
             if maze[y][x] == "B":
                 rect = pygame.Rect((x * scaleFactor) + offset, (y * scaleFactor) + offset, scaleFactor, scaleFactor)
                 pygame.draw.rect(screen, (0, 0, 0), rect)
